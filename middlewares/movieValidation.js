@@ -3,16 +3,17 @@ const { regExp } = require('../utils/constants');
 
 const validateMovie = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().min(2).max(30).required(),
-    director: Joi.string().min(2).max(30).required(),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
     duration: Joi.number().required(),
-    year: Joi.string().min(2).max(30).required(),
-    description: Joi.string().min(2).max(1000).required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
     image: Joi.string().pattern(regExp).required(),
     trailerLink: Joi.string().pattern(regExp).required(),
     thumbnail: Joi.string().pattern(regExp).required(),
-    nameRU: Joi.string().min(2).max(50).required(),
-    nameEN: Joi.string().min(2).max(50).required(),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 });
 

@@ -4,8 +4,10 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
-function getAllMovies(req, res, next) {
-  return Movie.find({})
+function getMovies(req, res, next) {
+  const owner = req.user._id;
+
+  return Movie.find({ owner })
     .then((movies) => res.status(OK).send(movies))
     .catch((err) => {
       next(err);
@@ -24,13 +26,14 @@ function createMovie(req, res, next) {
     image,
     trailerLink,
     thumbnail,
+    movieId,
     nameRU,
     nameEN,
   } = req.body;
 
   return Movie.create({
     // eslint-disable-next-line max-len
-    country, director, duration, year, description, image, trailerLink, thumbnail, nameRU, nameEN, owner,
+    country, director, duration, year, description, image, trailerLink, thumbnail, movieId, nameRU, nameEN, owner,
   })
     .then((movie) => res.status(CREATED_OK).send(movie))
     .catch((err) => {
@@ -69,7 +72,7 @@ function deleteMovie(req, res, next) {
 }
 
 module.exports = {
-  getAllMovies,
+  getMovies,
   createMovie,
   deleteMovie,
 };

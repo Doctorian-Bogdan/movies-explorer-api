@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorsHandler = require('./middlewares/errorsHandler');
+const limiter = require('./middlewares/limiter');
 const router = require('./routes/index');
 
 const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
@@ -18,6 +19,7 @@ mongoose.connect(DB_URL)
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(limiter);
 app.use(requestLogger);
 app.use(router);
 app.use(errorLogger);
